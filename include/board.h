@@ -3,22 +3,29 @@
 
 #include <cstdint>
 #include <raylib.h>
+#include <bitset>
+#include <iostream>
 
-struct board {
-    uint64_t white_pawns;
-    uint64_t white_knights;
-    uint64_t white_kings;
-    uint64_t white_queens;
-    uint64_t white_bishop;
-    uint64_t white_rooks;
+typedef struct {
+    std::uint64_t white_pawns;
+    std::uint64_t white_knights;
+    std::uint64_t white_kings;
+    std::uint64_t white_queens;
+    std::uint64_t white_bishop;
+    std::uint64_t white_rooks;
 
-    uint64_t black_pawns;
-    uint64_t black_knights;
-    uint64_t black_kings;
-    uint64_t black_queens;
-    uint64_t black_bishop;
-    uint64_t black_rooks;
-};
+    std::uint64_t black_pawns;
+    std::uint64_t black_knights;
+    std::uint64_t black_kings;
+    std::uint64_t black_queens;
+    std::uint64_t black_bishop;
+    std::uint64_t black_rooks;
+} board_t;
 
 void drawBoard(int cells, int cell_width);
+board_t* setupPawns();
+void print_bits(std::uint64_t val);
+
+extern std::uint64_t board_state;
+
 #endif
