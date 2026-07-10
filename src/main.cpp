@@ -8,6 +8,10 @@ int main(void) {
     std::cout << "Assalam o Alaikum!\n";
     InitWindow(width, width, "A simple Chess Game");
     SetTargetFPS(45);
+    std::array<Image,12> imgs;
+    loadPawnImages(imgs);
+
+
     board_t* board = setupPawns();
     
     
@@ -17,6 +21,9 @@ int main(void) {
         EndDrawing();
     }
 
+    for (int i = 0 ; i < NUM_IMAGES ; i++) {
+        UnloadImage(imgs[i]);
+    }
     CloseWindow();
     return 0;
 }

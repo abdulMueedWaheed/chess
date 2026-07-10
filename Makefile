@@ -1,31 +1,47 @@
-COMPILER=g++
-LIBS=-lraylib
-WARNINGS=-Wall -Wextra
-CXXFLAGS=$(WARNINGS) -std=c++17 -Iinclude
+# Compiler
+CXX := g++
+CXXFLAGS := -std=c++17 -Wall -Wextra -Iinclude
 
-SRC=src
-BUILD=build
-EXEC=chess
+# Libraries
+LIBS := -lraylib
 
-MAIN_SRC=main.cpp
-BOARD_SRC=$(SRC)/board.cpp
+# Directories
+SRC_DIR := src
+BUILD_DIR := build
 
-OBJS=$(BUILD)/main.o $(BUILD)/board.o
-BIN=$(BUILD)/$(EXEC)
+# Executable
+TARGET := $(BUILD_DIR)/chess
 
-all: $(BIN)
+# Find all .cpp files in src/
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 
-$(BUILD):
-	mkdir -p $(BUILD)
+# Convert src/foo.cpp -> build/foo.o
+OBJECTS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 
-$(BUILD)/%.o: $(SRC)/%.cpp | $(BUILD)
-	$(COMPILER) $(CXXFLAGS) -c $< -o $@
+# Default target
+all: $(TARGET)
 
-$(BIN): $(OBJS)
-	$(COMPILER) $(OBJS) -o $(BIN) $(LIBS)
+# Create build directory if needed
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-run: $(BIN)
-	./$(BIN)
+# Compile each .cpp into a .o
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Link executable
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $@ $(LIBS)
+
+# Run program
+run: $(TARGET)
+	./$(TARGET)
+
+# Clean build files
 clean:
-	rm -rf $(BUILD)/*.o $(BIN)
+	rm -rf $(BUILD_DIR)
+
+# Rebuild everything
+rebuild: clean all
+
+.PHONY: all run clean rebuild
