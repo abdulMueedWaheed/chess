@@ -2,25 +2,24 @@
 #define BOARD_H
 
 #include <cstdint>
-#include <raylib.h>
 #include <bitset>
 #include <iostream>
 
-typedef struct {
-    std::uint64_t white_pawns;
-    std::uint64_t white_knights;
-    std::uint64_t white_kings;
-    std::uint64_t white_queens;
-    std::uint64_t white_bishop;
-    std::uint64_t white_rooks;
-
-    std::uint64_t black_pawns;
-    std::uint64_t black_knights;
+struct board_t {
+    std::uint64_t black_bishops;
     std::uint64_t black_kings;
+    std::uint64_t black_knights;
+    std::uint64_t black_pawns;
     std::uint64_t black_queens;
-    std::uint64_t black_bishop;
     std::uint64_t black_rooks;
-} board_t;
+    
+    std::uint64_t white_bishops;
+    std::uint64_t white_kings;
+    std::uint64_t white_knights;
+    std::uint64_t white_pawns;
+    std::uint64_t white_queens;
+    std::uint64_t white_rooks;
+};
 
 void drawBoard(int cells, int cell_width);
 board_t* setupPawns();

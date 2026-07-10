@@ -2,18 +2,15 @@
 #include <raylib.h>
 #include "../include/game.h"
 #include "../include/board.h"
-
+#include "../include/rendering.h"
 
 int main(void) {
     std::cout << "Assalam o Alaikum!\n";
     InitWindow(width, width, "A simple Chess Game");
     SetTargetFPS(45);
-    std::array<Image,12> imgs;
-    loadPawnImages(imgs);
 
-
+    loadPawnTextures();
     board_t* board = setupPawns();
-    
     
     while ( ! WindowShouldClose() ) {
         BeginDrawing();
@@ -21,9 +18,6 @@ int main(void) {
         EndDrawing();
     }
 
-    for (int i = 0 ; i < NUM_IMAGES ; i++) {
-        UnloadImage(imgs[i]);
-    }
     CloseWindow();
     return 0;
 }
