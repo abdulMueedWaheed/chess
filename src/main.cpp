@@ -14,7 +14,7 @@ int main(void) {
     
     while ( ! WindowShouldClose() ) {
         BeginDrawing();
-        drawBoard(board_cells, cell_width);
+        drawBoard(board_cells, cell_width, board);
         EndDrawing();
     }
 

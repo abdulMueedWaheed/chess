@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <bitset>
 #include <iostream>
+#include <string>
+
+#include "game.h"
 
 struct board_t {
     std::uint64_t black_bishops;
@@ -21,10 +24,8 @@ struct board_t {
     std::uint64_t white_rooks;
 };
 
-void drawBoard(int cells, int cell_width);
 board_t* setupPawns();
 void print_bits(std::uint64_t val);
-
-extern std::uint64_t board_state;
+std::string getPieceAt(int x, int y, board_t* board);
 
 #endif

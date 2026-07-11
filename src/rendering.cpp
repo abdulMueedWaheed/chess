@@ -1,4 +1,5 @@
 #include "../include/rendering.h"
+#include "../include/board.h"
 
 #include <raylib.h>
 
@@ -21,12 +22,14 @@ void loadPawnTextures() {
 }
 
 void drawPiece(Rectangle r, Texture2D tex) {
-    int x = static_cast<int>(r.x + (r.width - tex.width) / 2.0f);
-    int y = static_cast<int>(r.y + (r.height - tex.height) / 2.0f);
-    DrawTexture(tex, x, y, WHITE);
+    float x = (r.x + (r.width - tex.width) / 2.0f);
+    float y = (r.y + (r.height - tex.height) / 2.0f);
+    // DrawTexture(tex, x, y, WHITE);
+    float desiredHeight = 64.0f;
+    DrawTextureEx(tex, (struct Vector2){x, y}, 0, desiredHeight/tex.height, WHITE);
 }
 
-void drawBoard(int board_size, int cell_width) {
+void drawBoard(int board_size, int cell_width, board_t* board) {
     
     for (int i = 0; i < board_size; i++) {
         for (int j = 0; j < board_size; j++) {
@@ -39,7 +42,7 @@ void drawBoard(int board_size, int cell_width) {
                 .height = static_cast<float>(cell_width),
             };
             DrawRectangleRec(rect, isBlack ? BLACK : WHITE);
-            drawPiece(rect, pawnTextures["white_pawn"]);
+            drawPiece(rect, pawnTextures[getPieceAt(i, j, board)]);
         }
     }
 
