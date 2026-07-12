@@ -3,7 +3,7 @@ CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -Iinclude
 
 # Libraries
-LIBS := -lraylib
+LIBS := -lraylib -llunasvg
 
 # Directories
 SRC_DIR := src
