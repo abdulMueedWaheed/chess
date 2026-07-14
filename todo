@@ -1,0 +1,32 @@
+- Decide what the player clicked
+
+- When the user clicks a square, convert that click into bitboard mask for that square
+
+- Then check whether that square contains a piece.
+
+- If it does not, ignore the click.
+
+- Pick the first square and the second square
+
+- Store the first clicked square as the “from” square.
+
+- On the next click, treat that as the “to” square.
+
+- If the player clicks the same piece again, just deselect it.
+
+Based on the piece at the “from” square, decide whether the “to” square is a legal move.
+
+pawn: one step forward, two-step from start, captures diagonally
+
+knight: L-shape
+
+bishop/rook/queen: sliding moves
+
+king: one square in any direction
+
+A good structure is:
+
+read the piece at the from-square
+determine legal targets
+if the target is legal, update the board
+otherwise, do nothing
