@@ -5,7 +5,6 @@
 #include <raylib.h>
 #include <string>
 
-#include "game.h"
 #include "board.h"
 #include <lunasvg/lunasvg.h>
 
