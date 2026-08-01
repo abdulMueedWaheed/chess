@@ -6,11 +6,13 @@
 #include <iostream>
 #include <raylib.h>
 
+using Square = std::uint8_t;
+
 constexpr int board_cells = 8;
 constexpr int cell_width = 96;
 constexpr int width = board_cells * cell_width;
 
-struct board_t {
+typedef struct {
     std::uint64_t black_bishops;
     std::uint64_t black_kings;
     std::uint64_t black_knights;
@@ -24,7 +26,7 @@ struct board_t {
     std::uint64_t white_pawns;
     std::uint64_t white_queens;
     std::uint64_t white_rooks;
-};
+} board_t;
 
 typedef enum {
     PIECE_NONE = -1,
@@ -45,20 +47,21 @@ typedef enum {
 
 typedef struct {
     board_t* board;
-    bool white_turn;
-    bool piece_selected;
-    Vector2 initial_position;
-    Vector2 final_position;
+    Square selected_square;
+    piece_type_t selected_piece;
+    bool is_white_turn;
+    bool is_piece_selected;
     
 } game_state_t;
 
 
-#define COMPRESS(x, y) ((x) + ((8) * (y)))
+
 
 board_t* setupPawns();
 void print_bits(std::uint64_t val);
 piece_type_t getPieceAt(int x, int y, board_t* board);
 Vector2 screenToBoard(int x, int y, int board_size, int cell_width);
+std::uint64_t boardToUInt64(int x, int y);
 void handleMouseButtonPressed(game_state_t* game_state);
 
 

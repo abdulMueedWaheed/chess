@@ -11,10 +11,9 @@ int main(void) {
 
 
     game_state.board = setupPawns();
-    game_state.white_turn = true;
-    game_state.piece_selected = false;
-    game_state.initial_position = {0, 0};
-    game_state.final_position = {0, 0};
+    game_state.is_white_turn = true;
+    game_state.is_piece_selected = false;
+    game_state.is_white_turn = true;
 
     while ( ! WindowShouldClose() ) {
         BeginDrawing();

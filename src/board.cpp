@@ -1,5 +1,7 @@
 #include "../include/board.h"
-#include "../include/move_logic.h"
+#include "../include/moves.h"
+#include <cstdio>
+#include <vector>
 
 
 // --------------------------------------------------
@@ -63,56 +65,52 @@ piece_type_t getPieceAt(int x, int y, board_t* board) {
     return PIECE_NONE;
 }
 
-
-// --------------------------------------------------
-// Convert screen coordinates to board coordinates
-// --------------------------------------------------
-
-Vector2 screenToBoard(int x, int y, int board_size, int cell_width) {
-    if (x < 0 || y < 0 || x >= board_size * cell_width || y >= board_size * cell_width) {
-        return {0.0f, 0.0f};
-    }
-
-    int boardX = x / cell_width;
-    int boardY = board_size - 1 - (y / cell_width);
-
-    return Vector2({static_cast<float>(boardX), static_cast<float>(boardY)});
-}
-
 // --------------------------------------------------
 // handle mouse button pressed event
 // --------------------------------------------------
 
-void handleMouseButtonPressed(game_state_t *game_state) {
-    
-    if (!game_state->piece_selected) {
-        auto p = GetMousePosition();
-        
-        game_state->initial_position = screenToBoard(p.x, p.y, board_cells, cell_width);
-        
-        piece_type_t piece = getPieceAt(game_state->initial_position.x, game_state->initial_position.y, game_state->board);
-        
-        if (piece != PIECE_NONE) {
-            game_state->piece_selected = true;
-            // std::printf("initial: %f, %f\n", game_state->initial_position.x, game_state->initial_position.y);
-            // std::fflush(stdout);
-            
-        }
+static Square mousePositionToSquare(Vector2 mouse_position) {
+    int screen_x = static_cast<int>(mouse_position.x) / cell_width;
+    int screen_y = static_cast<int>(mouse_position.y) / cell_width;
+    int board_x = screen_x;
+    int board_y = board_cells - 1 - screen_y;
 
-        else {
-            game_state->piece_selected = false;
-        }
+    return compressCoordinates(board_x, board_y);
+}
+
+void handleMouseButtonPressed(game_state_t *game_state) {
+    Square final_position;
+
+    if (!game_state->is_piece_selected) {
+        auto pI = GetMousePosition();
+        
+        game_state->selected_square = mousePositionToSquare(pI);
+        
+        game_state->selected_piece = getPieceAt(game_state->selected_square % 8, game_state->selected_square / 8, game_state->board);
+        
+
+        if   (game_state->selected_piece != PIECE_NONE) game_state->is_piece_selected = true;
+        else                                            game_state->is_piece_selected = false;
+
+        std::printf("initial screen coordinates: %f, %f\n", pI.x, pI.y);
+        std::printf("initial board coordinates: %d, %d\n", game_state->selected_square % 8, game_state->selected_square / 8);
+        std::fflush(stdout);
     }
 
     else {
-        game_state->piece_selected = false;
-        auto p = GetMousePosition();
-        game_state->final_position = screenToBoard(p.x, p.y, board_cells, cell_width);
+        game_state->is_piece_selected = false;
+        auto pF = GetMousePosition();
+        final_position = mousePositionToSquare(pF);
 
-        // std::printf("final: %f, %f\n", game_state->final_position.x, game_state->final_position.y);
-        // std::fflush(stdout);
+        std::printf("final screen coordinates: %f, %f\n", pF.x, pF.y);
+        std::printf("final board coordinates: %d, %d\n", final_position % 8, final_position / 8);
+        std::fflush(stdout);
         
-        makeMove(game_state);
+        std::vector<move_t> possible_moves = getPossibleMoves(game_state->board, game_state->selected_square % 8, game_state->selected_square / 8, game_state->selected_piece, game_state->is_white_turn);
+        makeMove(game_state, possible_moves, final_position);
     }
 
+    
+    std::printf("piece is slected?: %b, white_turn?: %b\n", game_state->is_piece_selected, game_state->is_white_turn);
+    std::fflush(stdout);
 }
