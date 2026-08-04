@@ -29,7 +29,6 @@ enum class PromotionPiece {
 typedef struct Move {
     Square from;
     Square to;
-    MoveType type;
 } move_t;
 
 
@@ -46,10 +45,16 @@ void handleCapture(board_t* board, Square final_position);
 std::vector<move_t> getPossibleMoves(board_t* board, int initial_x, int initial_y, piece_type_t piece, bool white_turn);
 void makeMove(game_state_t* game_state, std::vector<move_t> possible_moves, Square final_position);
 void setFinalPosition(board_t* board, Square initial_position, Square final_position, piece_type_t piece);
+bool withinBounds(board_t* board, int x, int y);
 
 // Various piece move generation functions
-std::vector<move_t> getPawnMoves(board_t* board, int x, int y, bool white_turn);
-std::vector<move_t> getKnightMoves(board_t* board, int x, int y);
+std::vector<move_t> getSlidingMoves(int x, int y, const int directions[][2], int directionCount);
+
+std::vector<move_t> getPawnMoves   (board_t* board, int x, int y, bool white_turn);
+std::vector<move_t> getKnightMoves (int x, int y);
+std::vector<move_t> getRookMoves   (int x, int y);
+std::vector<move_t> getBishopMoves (int x, int y);
+std::vector<move_t> getQueenMoves  (int x, int y);
 
 
 #endif

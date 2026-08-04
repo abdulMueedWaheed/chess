@@ -4,12 +4,9 @@
 #include <raylib.h>
 #include <vector>
 
-// std::vector<std::uint64> (*piece_moves[])(board_t*, Vector2, bool) = {
-//     &awsh_cd,
-//     &awsh_exit,
-//     &awsh_help,
-//     &awsh_math,
-// };
+bool withinBounds(int x, int y) {
+    return (x >= 0 && x < 8) && (y >= 0 && y < 8);
+}
 
 
 void handleCapture(board_t* board, Square final_position) {
@@ -173,39 +170,29 @@ std::vector<move_t> getPossibleMoves(board_t* board, int initial_x, int initial_
 
     case WHITE_PAWN:
     case BLACK_PAWN:
-        moves_list = getPawnMoves(
-            board,
-            initial_x,
-            initial_y,
-            white_turn
-        );
+        moves_list = getPawnMoves(board, initial_x, initial_y, white_turn);
     break;
 
 
     case WHITE_KNIGHT:
-        moves_list = getKnightMoves(
-            board,
-            initial_x,
-            initial_y
-        );
-    break;
-
     case BLACK_KNIGHT:
-        moves_list = getKnightMoves(
-            board,
-            initial_x,
-            initial_y
-        );
+        moves_list = getKnightMoves(initial_x, initial_y);
     break;
     
     case WHITE_BISHOP:
     case BLACK_BISHOP:
+        moves_list = getBishopMoves(initial_x, initial_y);
+    break;
 
     case WHITE_ROOK:
     case BLACK_ROOK:
+        moves_list = getRookMoves(initial_x, initial_y);
+    break;
     
     case WHITE_QUEEN:
     case BLACK_QUEEN:
+        moves_list = getQueenMoves(initial_x, initial_y);
+    break;
     
     case WHITE_KING:
     case BLACK_KING:
