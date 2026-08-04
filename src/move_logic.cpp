@@ -153,6 +153,16 @@ void setFinalPosition(board_t* board, Square initial_position, Square final_posi
 }
 
 std::vector<move_t> getPossibleMoves(board_t* board, int initial_x, int initial_y, piece_type_t piece, bool white_turn) {
+
+    bool isWhitePiece =
+        piece >= WHITE_PAWN && piece <= WHITE_KING;
+
+    if (white_turn && !isWhitePiece)
+        return {};
+
+    if (!white_turn && isWhitePiece)
+        return {};
+
     std::vector<move_t> moves_list;
 
     switch (piece) {
@@ -170,18 +180,38 @@ std::vector<move_t> getPossibleMoves(board_t* board, int initial_x, int initial_
             white_turn
         );
     break;
-    
+
+
     case WHITE_KNIGHT:
-    case WHITE_BISHOP:
-    case WHITE_ROOK:
-    case WHITE_QUEEN:
-    case WHITE_KING:
+        moves_list = getKnightMoves(
+            board,
+            initial_x,
+            initial_y
+        );
+    break;
+
     case BLACK_KNIGHT:
+        moves_list = getKnightMoves(
+            board,
+            initial_x,
+            initial_y
+        );
+    break;
+    
+    case WHITE_BISHOP:
     case BLACK_BISHOP:
+
+    case WHITE_ROOK:
     case BLACK_ROOK:
+    
+    case WHITE_QUEEN:
     case BLACK_QUEEN:
+    
+    case WHITE_KING:
     case BLACK_KING:
-      break;
+    
+    break;
+    
     }
 
     return moves_list;

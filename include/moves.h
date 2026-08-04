@@ -49,6 +49,7 @@ void setFinalPosition(board_t* board, Square initial_position, Square final_posi
 
 // Various piece move generation functions
 std::vector<move_t> getPawnMoves(board_t* board, int x, int y, bool white_turn);
+std::vector<move_t> getKnightMoves(board_t* board, int x, int y);
 
 
 #endif

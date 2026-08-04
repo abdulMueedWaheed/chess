@@ -107,6 +107,8 @@ void handleMouseButtonPressed(game_state_t *game_state) {
         std::fflush(stdout);
         
         std::vector<move_t> possible_moves = getPossibleMoves(game_state->board, game_state->selected_square % 8, game_state->selected_square / 8, game_state->selected_piece, game_state->is_white_turn);
+
+        
         makeMove(game_state, possible_moves, final_position);
     }
 
